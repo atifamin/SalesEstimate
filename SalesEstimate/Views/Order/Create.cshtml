@@ -1,0 +1,253 @@
+﻿@model SalesEstimate.ViewModels.OrderViewModel
+
+
+<div class="container-fluid">
+    <div class="page-inner">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header fw-bold">
+                        Create Order
+                    </div>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="general-info-tab" data-bs-toggle="tab" href="#general-info" role="tab" aria-controls="general-info" aria-selected="true">General Information</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="extra-details-tab" data-bs-toggle="tab" href="#extra-details" role="tab" aria-controls="extra-details" aria-selected="false">Extra Details</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+
+                        <div class="tab-pane fade show active" id="general-info" role="tabpanel" aria-labelledby="general-info-tab">
+                            <div class="card-body">
+                                <form asp-action="Create" method="post">
+                                    <div class="row">
+                                        <!-- Activate Price Calculation -->
+                                        <div class="col-md-6 col-xl-4">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" id="IsActivatePriceCalculation" name="IsActivatePriceCalculation" value="true" @(Model?.IsActivatePriceCalculation == true ? "checked" : "")>
+                                                <label class="form-check-label" for="IsActivatePriceCalculation">Activate Price Calculation</label>
+                                            </div>
+                                        </div>
+                                        <!-- Quotation Request -->
+                                        <div class="col-md-6 col-xl-4">
+                                            <label for="quotationRequest" class="col-form-label">Order or Quotation Request:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="quotationRequest" asp-for="QuotationRequest">
+                                            </div>
+                                        </div>
+                                        <!--Order Type -->
+                                        <div class="col-md-6 col-xl-4">
+                                            <label for="orderType" class="col-form-label">Order or Quotation Type:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="orderType" asp-for="OrderType">
+                                            </div>
+                                        </div>
+                                        <!-- Company Name -->
+                                        <div class="col-md-6 col-xl-4">
+                                            <label for="companyName" class="col-form-label">Company Name:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="companyName" asp-for="CompanyName">
+                                            </div>
+                                        </div>
+                                        <!-- Customer Purchase Order -->
+                                        <div class="col-md-6 col-xl-4">
+                                            <label asp-for="CustomerPurchaseOrder" class="col-form-label">Customer Purchase Order (P.O.):</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="purchaseOrder" asp-for="CustomerPurchaseOrder">
+                                            </div>
+                                        </div>
+                                        <!-- Contact Name -->
+                                        <div class="col-md-6 col-xl-4">
+                                            <label for="contactName" class="col-form-label">Contact Name:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="contactName" asp-for="ContactName">
+                                            </div>
+                                        </div>
+
+                                        <!-- Contact Phone -->
+                                        <div class="col-md-6 col-xl-4">
+                                            <label for="contactPhone" class="col-form-label">Contact Phone #:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="contactPhone" asp-for="ContactPhone">
+                                            </div>
+                                        </div>
+                                        <!-- Contact Fax -->
+                                        <div class="col-md-6 col-xl-4">
+                                            <label for="contactFax" class="col-form-label">Contact Fax #:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="contactFax" asp-for="ContactFax">
+                                            </div>
+                                        </div>
+
+                                        <!-- Contact Email -->
+                                        <div class="col-md-6 col-xl-4">
+                                            <label for="contactEmail" class="col-form-label">Contact Email:</label>
+                                            <div class="col-sm-8">
+                                                <input type="email" class="form-control" id="contactEmail" asp-for="ContactEmail">
+                                            </div>
+                                        </div>
+                                        <!-- Order Date -->
+                                        <div class="col-md-6 col-xl-4">
+                                            <label for="orderDate" class="col-form-label">Order Date:</label>
+                                            <div class="col-sm-8">
+                                                <input type="date" class="form-control" id="orderDate" asp-for="OrderDate">
+                                            </div>
+                                        </div>
+                                        <!-- Required Date -->
+                                        <div class="col-md-6 col-xl-4">
+                                            <label for="requiredDate" class="col-form-label">Required Date:</label>
+                                            <div class="col-sm-8">
+                                                <input type="date" class="form-control" id="requiredDate" asp-for="RequiredDate">
+                                            </div>
+                                        </div>
+                                        <!-- Buy America Act Project -->
+                                        <div class="col-md-6 col-xl-4">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" id="isBuyAmericaActProject" name="IsBuyAmericaActProject" value="true" @(Model?.IsBuyAmericaActProject == true ? "checked" : "")>
+                                                <label class="form-check-label" for="isBuyAmericaActProject">Buy America Act Project</label>
+                                            </div>
+                                        </div>
+                                       @*  <div class="col-md-6 col-xl-4">
+                                            <label for="isBuyAmericaActProject" class="col-form-label">Buy America Act Project:</label>
+                                            <div class="col-sm-8">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" id="Yes" asp-for="IsBuyAmericaActProject" value="true">
+                                                    <label class="form-check-label" for="Yes">Yes</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" id="No" asp-for="IsBuyAmericaActProject" value="false">
+                                                    <label class="form-check-label" for="No">No</label>
+                                                </div>
+                                            </div>
+                                        </div> *@
+                                        <!-- Project Total Value -->
+                                        <div class="col-md-6 col-xl-4">
+                                            <label for="projectTotalValue" class="col-form-label">If yes, what is the project total value?:</label>
+                                            <div class="col-sm-8">
+                                                <input type="number" class="form-control" id="projectTotalValue" asp-for="ProjectTotalValue">
+                                            </div>
+                                        </div>
+                                        <!-- Purchase Order Quoted -->
+                                        <div class="col-md-6 col-xl-4">
+                                            <label for="quoteNumber" class="col-form-label">Has this Purchase Order been quoted?:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="quoteNumber" asp-for="QuoteNumber">
+                                            </div>
+                                        </div>
+                                        <!-- Ship to Address -->
+                                        <div class="col-md-6 col-xl-4">
+                                            <label for="shipToAddress" class="col-form-label">Ship to Address:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="shipToAddress" asp-for="ShipToAddress">
+                                            </div>
+                                        </div>
+                                        <!-- Job Site Name -->
+                                        <div class="col-md-6 col-xl-4">
+                                            <label for="jobSiteName" class="col-form-label">Job Site Name:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="jobSiteName" asp-for="JobSiteName">
+                                            </div>
+                                        </div>
+                                        <!-- Street Address -->
+                                        <div class="col-md-6 col-xl-4">
+                                            <label for="streetAddress" class="col-form-label">Street Address:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="streetAddress" asp-for="StreetAddress">
+                                            </div>
+                                        </div>
+                                        <!-- City -->
+                                        <div class="col-md-6 col-xl-4">
+                                            <label for="city" class="col-form-label">City:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="city" asp-for="City">
+                                            </div>
+                                        </div>
+
+                                        <!-- State -->
+                                        <div class="col-md-6 col-xl-4">
+                                            <label for="lookupStateId" class="col-form-label">State:</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-select" id="lookupStateId" name="LookupStateId">
+                                                    <option value="">Select State</option>
+                                                    @if (ViewBag.States != null)
+                                                    {
+                                                        foreach (var item in (SelectList)ViewBag.States)
+                                                        {
+                                                            <option value="@item.Value">@item.Text</option>
+                                                        }
+                                                    }
+                                                </select>
+                                                <span asp-validation-for="LookupStateId" class="text-danger"></span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Zip Code -->
+                                        <div class="col-md-6 col-xl-4">
+                                            <label for="zipCode" class="col-form-label">Zip Code:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="zipCode" asp-for="ZipCode">
+                                            </div>
+                                        </div>
+
+                                        <!-- Contractor -->
+                                        <div class="col-md-6 col-xl-4">
+                                            <label for="contractor" class="col-form-label">Contractor:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="contractor" asp-for="Contractor">
+                                            </div>
+                                        </div>
+
+                                        <!-- Job Site Contact Name -->
+                                        <div class="col-md-6 col-xl-4">
+                                            <label for="jobSiteContactName" class="col-form-label">Job Site Contact Name:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="jobSiteContactName" asp-for="JobSiteContactName">
+                                            </div>
+                                        </div>
+
+                                        <!-- Contact Phone or Cell -->
+                                        <div class="col-md-6 col-xl-4">
+                                            <label for="jobSiteContactPhone" class="col-form-label">Contact Phone or Cell:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="jobSiteContactPhone" asp-for="JobSiteContactPhone">
+                                            </div>
+                                        </div>
+
+                                        
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Extra Details Tab Content -->
+                        <div class="tab-pane fade" id="extra-details" role="tabpanel" aria-labelledby="extra-details-tab">
+                            <div class="card-body">
+                                <!-- Add extra details form fields here -->
+                                <form>
+                                    <!-- Form fields for extra details go here -->
+                                    <!-- Example field: -->
+                                    <div class="col-md-6 col-xl-4">
+                                        <label for="exampleDetail" class="col-form-label">Example Detail:</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="exampleDetail">
+                                        </div>
+                                    </div>
+                                    <!-- Add more fields as needed -->
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="col-md-12 text-end p-4">
+                            <button type="submit" class="btn btn-primary">Create Order</button>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

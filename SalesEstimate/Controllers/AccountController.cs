@@ -18,11 +18,7 @@ namespace SalesEstimate.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IConfiguration _configuration;
 
-        public AccountController(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
-            ILogger<AccountController> logger,
-            IConfiguration configuration)
+        public AccountController(UserManager<ApplicationUser> userManager,SignInManager<ApplicationUser> signInManager,ILogger<AccountController> logger,IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;

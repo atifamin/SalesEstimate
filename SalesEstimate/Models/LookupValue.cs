@@ -7,8 +7,8 @@ namespace SalesEstimate.Models
         public int Id { get; set; }
 
         [ForeignKey("LookupType")]
-        public int? LookupTypeId { get; set; }
-        public LookupType? LookupType { get; set; }
+        public int LookupTypeId { get; set; }
+        public LookupType LookupType { get; set; }
 
         public string Name { get; set; }
         public bool IsActive { get; set; }

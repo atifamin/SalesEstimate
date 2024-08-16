@@ -5,6 +5,7 @@ using SalesEstimate.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using SalesEstimate.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +45,7 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<ILookupRepository, LookupRepository>();
 
 var app = builder.Build();
 
