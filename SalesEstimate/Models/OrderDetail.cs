@@ -10,8 +10,20 @@ namespace SalesEstimate.Models
         [ForeignKey("Order")]
         public int OrderId { get; set; }
         public Order Order { get; set; }
+        [Display(Name = "Order Line")]
+        public int? OrderLine { get; set; }
         [Display(Name = "Frame Quantity")]
-        public int FrameQty{ get; set; }
+        public int? FrameQty{ get; set; }
+        [Display(Name = "Estimated Total")]
+        public int? EstimatedSubTotal { get; set; }
+        [Display(Name = "Additional Charges If Needed")]
+        public int? AdditionalCharges { get; set; }
+        [Display(Name = "Others Charges ")]
+        public int? OtherCharges { get; set; }
+        [Display(Name = "Estimated Freight")]
+        public int? EstimatedFreight { get; set; }
+        [Display(Name = "Estimated Total")]
+        public int? EstimatedTotal { get; set; }
         [ForeignKey("LookupValue")]
         public int? LookupTypeId { get; set; }
         public LookupValue? LookupType { get; set; }

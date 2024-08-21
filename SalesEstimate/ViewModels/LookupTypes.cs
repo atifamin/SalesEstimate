@@ -14,7 +14,7 @@
             ProfileOption = 8,
             Return = 9,
             Gauge = 10,
-            Assemblu = 11,
+            Assembly = 11,
             Anchors = 12,
             AdditionalAnchors = 13,
             Hinges = 14,

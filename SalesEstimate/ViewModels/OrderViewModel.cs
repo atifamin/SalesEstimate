@@ -30,6 +30,7 @@
         public string? ZipCode { get; set; }
         public string? Contractor { get; set; }
         public string? JobSiteContactPhone { get; set; }
+        public string? AdditionalShippingInstructions { get; set; }
         public decimal? Standard { get; set; }
         public decimal? Fastlane { get; set; }
         public decimal? Express { get; set; }

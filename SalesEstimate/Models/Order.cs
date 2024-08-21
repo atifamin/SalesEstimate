@@ -84,6 +84,8 @@ namespace SalesEstimate.Models
         [Phone]
         [MaxLength(20)]
         public string? JobSiteContactPhone { get; set; }
+        [MaxLength(255)]
+        public string? AdditionalShippingInstructions { get; set; }
 
         public decimal? Standard { get; set; }
         public decimal? Fastlane { get; set; }

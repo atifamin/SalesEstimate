@@ -24,6 +24,7 @@ namespace SalesEstimate.Controllers
         {
             var states = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.State);
             ViewBag.States = states;
+            ViewBag.PageTitle = "Create Order";
             return View();
         }
         [HttpPost]
@@ -71,12 +72,234 @@ namespace SalesEstimate.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-
+            ViewBag.PageTitle = "Create Order";
             return View(model);
         }
+        // GET: Order/CreateOrderDetail
+        //public async Task<IActionResult> CreateOrderDetail()
+        //{
+        //    ViewBag.Handing = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Handing);
+        //    ViewBag.SteelMaterial = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.SteelMaterial);
+        //    ViewBag.FireLabel = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.FireLabel);
+        //    ViewBag.Series = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Series);
+        //    ViewBag.Profile = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Profile);
+        //    ViewBag.ProfileOption = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.ProfileOption);
+        //    ViewBag.Return = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Return);
+        //    ViewBag.Gauge = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Gauge);
+        //    ViewBag.Assembly = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Assembly);
+        //    ViewBag.Anchors = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Anchors);
+        //    ViewBag.AdditionalAnchors = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.AdditionalAnchors);
+        //    ViewBag.Hinges = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Hinges);
+        //    ViewBag.AdditionalOptionOnHinge = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.AdditionalOptionOnHinge);
+        //    ViewBag.HardwareLocation = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.HardwareLocation);
+        //    ViewBag.HeadPrep = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.HeadPrep);
+        //    ViewBag.Strike = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Strike);
+        //    ViewBag.AdditionalStrike = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.AdditionalStrike);
+        //    ViewBag.Closers = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Closers);
+        //    ViewBag.Finish = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Finish);
+        //    ViewBag.Options1 = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Options1);
+        //    ViewBag.Options2 = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Options2);
+        //    ViewBag.Options3 = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Options3);
+
+        //    return PartialView("_OrderDetailsPartial");
+        //}
+        //[HttpPost]
+        //public async Task<IActionResult> CreateOrderDetail(OrderDetailsViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var orderDetail = new OrderDetail
+        //        {
+        //            OrderLine = model.OrderLine,
+        //            FrameQty = model.FrameQty,
+        //            EstimatedSubTotal = model.EstimatedSubTotal,
+        //            AdditionalCharges = model.AdditionalCharges,
+        //            OtherCharges = model.OtherCharges,
+        //            EstimatedFreight = model.EstimatedFreight,
+        //            EstimatedTotal = model.EstimatedTotal,
+        //            ElevationDrawing = model.ElevationDrawing,
+        //            WidthFeet = model.WidthFeet,
+        //            WidthInches = model.WidthInches,
+        //            HeightFeet = model.HeightFeet,
+        //            HeightInches = model.HeightInches,
+        //            UnequalPairWidthFeet = model.UnequalPairWidthFeet,
+        //            UnequalPairWidthInches = model.UnequalPairWidthInches,
+        //            JambDepth = model.JambDepth,
+        //            HingeJamb = model.HingeJamb,
+        //            StrikeJamb = model.StrikeJamb,
+        //            Head = model.Head,
+        //            QTY = model.QTY,
+        //            CreatedBy = User.Identity.Name,
+        //            CreatedDate = DateTime.UtcNow,
+        //            ModifiedBy = model.ModifiedBy,
+        //            ModifiedDate = model.ModifiedDate,
+        //            LookupTypeId = model.LookupTypeId,
+        //            LookupXifPairId = model.LookupXifPairId,
+        //            LookupOtherThanDoorId = model.LookupOtherThanDoorId,
+        //            LookupHandingId = model.LookupHandingId,
+        //            LookupSteelMaterialId = model.LookupSteelMaterialId,
+        //            LookupFireLabelId = model.LookupFireLabelId,
+        //            LookupSeriesId = model.LookupSeriesId,
+        //            LookupProfileId = model.LookupProfileId,
+        //            LookupProfileOptionId = model.LookupProfileOptionId,
+        //            LookupReturnId = model.LookupReturnId,
+        //            LookupGaugeId = model.LookupGaugeId,
+        //            LookupAssemblyId = model.LookupAssemblyId,
+        //            LookupAnchorsId = model.LookupAnchorsId,
+        //            LookupAdditionalAnchorsId = model.LookupAdditionalAnchorsId,
+        //            LookupHingesId = model.LookupHingesId,
+        //            LookupAdditionaloptionOnHingeId = model.LookupAdditionaloptionOnHingeId,
+        //            LookupHardwareLocationId = model.LookupHardwareLocationId,
+        //            LookupHeadPrepId = model.LookupHeadPrepId,
+        //            LookupStrikeId = model.LookupStrikeId,
+        //            LookupAdditionalStrikeId = model.LookupAdditionalStrikeId,
+        //            LookupCloserId = model.LookupCloserId,
+        //            LookupFinishId = model.LookupFinishId,
+        //            LookupOptions1Id = model.LookupOptions1Id,
+        //            LookupOptions2Id = model.LookupOptions2Id,
+        //            LookupOptions3Id = model.LookupOptions3Id
+        //        };
+
+        //        _context.OrderDetails.Add(orderDetail);
+        //        await _context.SaveChangesAsync();
+
+        //        return RedirectToAction(nameof(Index));
+        //    }
+
+        //    ViewBag.Handing = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Handing);
+        //    ViewBag.SteelMaterial = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.SteelMaterial);
+        //    ViewBag.FireLabel = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.FireLabel);
+        //    ViewBag.Series = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Series);
+        //    ViewBag.Profile = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Profile);
+        //    ViewBag.ProfileOption = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.ProfileOption);
+        //    ViewBag.Return = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Return);
+        //    ViewBag.Gauge = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Gauge);
+        //    ViewBag.Assembly = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Assembly);
+        //    ViewBag.Anchors = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Anchors);
+        //    ViewBag.AdditionalAnchors = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.AdditionalAnchors);
+        //    ViewBag.Hinges = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Hinges);
+        //    ViewBag.AdditionalOptionOnHinge = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.AdditionalOptionOnHinge);
+        //    ViewBag.HardwareLocation = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.HardwareLocation);
+        //    ViewBag.HeadPrep = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.HeadPrep);
+        //    ViewBag.Strike = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Strike);
+        //    ViewBag.AdditionalStrike = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.AdditionalStrike);
+        //    ViewBag.Closers = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Closers);
+        //    ViewBag.Finish = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Finish);
+        //    ViewBag.Options1 = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Options1);
+        //    ViewBag.Options2 = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Options2);
+        //    ViewBag.Options3 = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Options3);
+
+        //    ViewBag.PageTitle = "Create Order Detail";
+        //    return View(model);
+        //}
+        // GET: Order/CreateOrderDetail
+        public async Task<IActionResult> CreateOrderDetail()
+        {
+            await LoadLookupData();
+            return PartialView("_OrderDetails");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateOrderDetail(OrderDetailsViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var orderDetail = new OrderDetail
+                {
+                    OrderLine = model.OrderLine,
+                    FrameQty = model.FrameQty,
+                    EstimatedSubTotal = model.EstimatedSubTotal,
+                    AdditionalCharges = model.AdditionalCharges,
+                    OtherCharges = model.OtherCharges,
+                    EstimatedFreight = model.EstimatedFreight,
+                    EstimatedTotal = model.EstimatedTotal,
+                    ElevationDrawing = model.ElevationDrawing,
+                    WidthFeet = model.WidthFeet,
+                    WidthInches = model.WidthInches,
+                    HeightFeet = model.HeightFeet,
+                    HeightInches = model.HeightInches,
+                    UnequalPairWidthFeet = model.UnequalPairWidthFeet,
+                    UnequalPairWidthInches = model.UnequalPairWidthInches,
+                    JambDepth = model.JambDepth,
+                    HingeJamb = model.HingeJamb,
+                    StrikeJamb = model.StrikeJamb,
+                    Head = model.Head,
+                    QTY = model.QTY,
+                    CreatedBy = User.Identity.Name,
+                    CreatedDate = DateTime.UtcNow,
+                    ModifiedBy = model.ModifiedBy,
+                    ModifiedDate = model.ModifiedDate,
+                    LookupTypeId = model.LookupTypeId,
+                    LookupXifPairId = model.LookupXifPairId,
+                    LookupOtherThanDoorId = model.LookupOtherThanDoorId,
+                    LookupHandingId = model.LookupHandingId,
+                    LookupSteelMaterialId = model.LookupSteelMaterialId,
+                    LookupFireLabelId = model.LookupFireLabelId,
+                    LookupSeriesId = model.LookupSeriesId,
+                    LookupProfileId = model.LookupProfileId,
+                    LookupProfileOptionId = model.LookupProfileOptionId,
+                    LookupReturnId = model.LookupReturnId,
+                    LookupGaugeId = model.LookupGaugeId,
+                    LookupAssemblyId = model.LookupAssemblyId,
+                    LookupAnchorsId = model.LookupAnchorsId,
+                    LookupAdditionalAnchorsId = model.LookupAdditionalAnchorsId,
+                    LookupHingesId = model.LookupHingesId,
+                    LookupAdditionaloptionOnHingeId = model.LookupAdditionaloptionOnHingeId,
+                    LookupHardwareLocationId = model.LookupHardwareLocationId,
+                    LookupHeadPrepId = model.LookupHeadPrepId,
+                    LookupStrikeId = model.LookupStrikeId,
+                    LookupAdditionalStrikeId = model.LookupAdditionalStrikeId,
+                    LookupCloserId = model.LookupCloserId,
+                    LookupFinishId = model.LookupFinishId,
+                    LookupOptions1Id = model.LookupOptions1Id,
+                    LookupOptions2Id = model.LookupOptions2Id,
+                    LookupOptions3Id = model.LookupOptions3Id
+                };
+
+                _context.OrderDetails.Add(orderDetail);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            await LoadLookupData();
+            return PartialView("_OrderDetails", model);
+        }
+
+        private async Task LoadLookupData()
+        {
+
+            ViewBag.XifPair = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.XifPair);
+            ViewBag.OtherThan1or3 = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.OtherThan1or3);
+            ViewBag.Types = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Types);
+            ViewBag.Handing = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Handing);
+            ViewBag.SteelMaterial = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.SteelMaterial);
+            ViewBag.FireLabel = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.FireLabel);
+            ViewBag.Series = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Series);
+            ViewBag.Profile = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Profile);
+            ViewBag.ProfileOption = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.ProfileOption);
+            ViewBag.Return = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Return);
+            ViewBag.Gauge = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Gauge);
+            ViewBag.Assembly = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Assembly);
+            ViewBag.Anchors = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Anchors);
+            ViewBag.AdditionalAnchors = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.AdditionalAnchors);
+            ViewBag.Hinges = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Hinges);
+            ViewBag.AdditionalOptionOnHinge = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.AdditionalOptionOnHinge);
+            ViewBag.HardwareLocation = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.HardwareLocation);
+            ViewBag.HeadPrep = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.HeadPrep);
+            ViewBag.Strike = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Strike);
+            ViewBag.AdditionalStrike = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.AdditionalStrike);
+            ViewBag.Closers = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Closers);
+            ViewBag.Finish = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Finish);
+            ViewBag.Options1 = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Options1);
+            ViewBag.Options2 = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Options2);
+            ViewBag.Options3 = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Options3);
+        }
+
         public async Task<IActionResult> Index()
         {
             var states = await _lookupRepository.LookupSelectList(LookupTypes.LookupType.Types);
+            ViewBag.PageTitle = "Order";
             return View(states);
         }
     }
