@@ -6,16 +6,14 @@
     <div class="page-inner">
         <div class="row">
             <div class="col-md-12">
+                <h5>@ViewBag.PageTitle</h5>
                 <div class="card">
-                    <div class="card-title">
-                        <h5>@ViewBag.PageTitle</h5>
-                    </div>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
                             <a class="nav-link active" id="general-info-tab" data-bs-toggle="tab" href="#general-info" role="tab" aria-controls="general-info" aria-selected="true">General Information</a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" id="oredr-details-tab" data-bs-toggle="tab" href="#order-details" role="tab" aria-controls="order-details" aria-selected="false">Order Details</a>
+                            <a class="nav-link" id="order-details-tab" data-bs-toggle="tab" href="#order-details" role="tab" aria-controls="order-details" aria-selected="false">Order Details</a>
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
@@ -23,13 +21,7 @@
                             <div class="card-body">
                                 <form class="row g-3 needs-validation" asp-action="Create" method="post" novalidate>
                                     <div class="row">
-                                        <!-- Activate Price Calculation -->
-                                        <div class="col-md-6 col-xl-4">
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="checkbox" id="IsActivatePriceCalculation" name="IsActivatePriceCalculation" value="true" @(Model?.IsActivatePriceCalculation == true ? "checked" : "")>
-                                                <label class="form-check-label" for="IsActivatePriceCalculation">Activate Price Calculation</label>
-                                            </div>
-                                        </div>
+                                        
                                         <!-- Quotation Request -->
                                         <div class="col-md-6 col-xl-4">
                                             <label for="quotationRequest" class="col-form-label">Order or Quotation Request:</label>
@@ -44,6 +36,21 @@
                                             <input type="text" class="form-control" id="orderType" asp-for="OrderType" required>
                                             <div class="invalid-feedback">
                                                 Please enter the order type.
+                                            </div>
+                                        </div>
+                                        <!-- Checkboxes Section -->
+                                        <div class="col-md-6 col-xl-4 mb-3 mt-3">
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="IsActivatePriceCalculation" name="IsActivatePriceCalculation" value="true" @(Model?.IsActivatePriceCalculation == true ? "checked" : "")>
+                                                <label class="form-check-label" for="IsActivatePriceCalculation">Activate Price Calculation</label>
+                                            </div>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="isBuyAmericaActProject" name="IsBuyAmericaActProject" value="true" @(Model?.IsBuyAmericaActProject == true ? "checked" : "")>
+                                                <label class="form-check-label" for="isBuyAmericaActProject">Buy America Act Project</label>
+                                            </div>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="IsPurchaseOrderQuoted" name="IsPurchaseOrderQuoted" value="true" @(Model?.IsPurchaseOrderQuoted == true ? "checked" : "")>
+                                                <label class="form-check-label" for="IsPurchaseOrderQuoted">Has This Purchase Order been Quoted?</label>
                                             </div>
                                         </div>
                                         <!-- Company Name -->
@@ -104,25 +111,13 @@
                                                 Please select a required date.
                                             </div>
                                         </div>
-                                        <!-- Buy America Act Project -->
-                                        <div class="col-md-6 col-xl-4">
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="checkbox" id="isBuyAmericaActProject" name="IsBuyAmericaActProject" value="true" @(Model?.IsBuyAmericaActProject == true ? "checked" : "")>
-                                                <label class="form-check-label" for="isBuyAmericaActProject">Buy America Act Project</label>
-                                            </div>
-                                        </div>
+                                        
                                         <!-- Project Total Value -->
                                         <div class="col-md-6 col-xl-4">
                                             <label for="projectTotalValue" class="col-form-label">If yes, what is the project total value?:</label>
                                             <input type="number" class="form-control" id="projectTotalValue" asp-for="ProjectTotalValue">
                                         </div>
-                                        <!-- Has This Purchase Order been Quoted -->
-                                        <div class="col-md-6 col-xl-4">
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="checkbox" id="IsPurchaseOrderQuoted" name="IsPurchaseOrderQuoted" value="true" @(Model?.IsPurchaseOrderQuoted == true ? "checked" : "")>
-                                                <label class="form-check-label" for="IsPurchaseOrderQuoted">Has This Purchase Order been Quoted?</label>
-                                            </div>
-                                        </div>
+                                        
                                         <!-- Quoted number -->
                                         <div class="col-md-6 col-xl-4">
                                             <label for="quoteNumber" class="col-form-label">Quote Number:</label>
@@ -149,6 +144,11 @@
                                         <div class="col-md-6 col-xl-4 mb-2">
                                             <label for="jobSiteContactPhone" class="col-form-label">Contact Phone or Cell:</label>
                                             <input type="text" class="form-control" id="jobSiteContactPhone" asp-for="JobSiteContactPhone">
+                                        </div>
+                                        <!-- Additional Shipping Instructions -->
+                                        <div class="col-md-12 mb-2">
+                                            <label for="additionalShippingInstructions" class="col-form-label">Additional Shipping Instructions:</label>
+                                            <textarea class="form-control" id="additionalShippingInstructions" asp-for="AdditionalShippingInstructions" rows="3"></textarea>
                                         </div>
                                     </div>
                                     <div class="card">
@@ -205,7 +205,6 @@
                                     </div>
                                     <div class="form-group text-end mt-3">
                                         <button type="submit" class="btn btn-primary">Save</button>
-                                        <a href="@Url.Action("Index", "Order")" class="btn btn-secondary">Back</a>
                                     </div>
                                 </form>
                             </div>
@@ -216,53 +215,71 @@
                                 <div class="col-md-12 text-end mb-3">
                                     <button type="button" class="btn btn-primary" id="loadOrderDetailsButton">Add+</button>
                                 </div>
-                                <div id="orderDetailsContainer">
-                                    
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
                 </div>
+                <form class="row g-3 needs-validation" asp-action="CreateOrderDetail" asp-controller="Order" method="post" novalidate>
+                    <div id="orderDetailsContainer">
+                    </div>
+                    <div class="submitButtonContainer d-none text-end mt-3">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+                
             </div>
         </div>
     </div>
 </div>
-
 @section Scripts {
     <script>
         'use strict';
+        let lineNumber = 0;
 
         $(document).ready(function () {
-            // Handle button click to load partial view
             $('#loadOrderDetailsButton').on('click', function () {
+                lineNumber++;
                 $.ajax({
-                    url: '@Url.Action("CreateOrderDetail", "Order")', // Action method URL
+                    url: '@Url.Action("CreateOrderDetail", "Order")',
                     type: 'GET',
+                    data: { orderLine: lineNumber },
                     success: function (data) {
-                        
-                        $('#orderDetailsContainer').html(data); 
+                        $('#orderDetailsContainer').append(data);
                     },
                     error: function (xhr, status, error) {
-                        debugger;
-                        console.error('Error details:', status, error); // Log error details
-                        alert('An error occurred while loading the data. Please check the console for details.'); 
+                        console.error('Error details:', status, error);
+                        alert('An error occurred while loading the data. Please check the console for details.');
                     }
                 });
             });
-
-            // Custom validation JavaScript for Bootstrap forms
             var forms = document.querySelectorAll('.needs-validation');
             Array.prototype.slice.call(forms).forEach(function (form) {
                 form.addEventListener('submit', function (event) {
                     if (!form.checkValidity()) {
-                        event.preventDefault(); // Prevent form submission if invalid
+                        event.preventDefault();
                         event.stopPropagation();
                     }
-                    form.classList.add('was-validated'); // Add Bootstrap validation styles
+                    form.classList.add('was-validated');
                 }, false);
             });
         });
+        $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+            var activeTabId = $(e.target).attr('id');
+
+            console.log("Tab changed to: ", activeTabId);
+
+            if (activeTabId === 'order-details-tab') {
+                $('.submitButtonContainer').removeClass('d-none');
+                console.log("Show Submit Button");
+            } else {
+                $('.submitButtonContainer').addClass('d-none');
+                console.log("Hide Submit Button");
+            }
+        });
+
     </script>
 }
+
 
 

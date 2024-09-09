@@ -44,9 +44,9 @@ namespace SalesEstimate.Models
         [Display(Name = "Door Opening Sizes Height Inches")]
         
         public decimal HeightInches { get; set; }
-        [Display(Name = "If Unequal Pair InActive Leaf Nominal Width Feet")]
+        [Display(Name = "If Unequal Pair Width Feet")]
         public int UnequalPairWidthFeet { get; set; }
-        [Display(Name = "If Unequal Pair InActive Leaf Nominal Width Inches")]
+        [Display(Name = "If Unequal Pair Width Inches")]
         public decimal UnequalPairWidthInches { get; set; }
         [ForeignKey("LookupValue")]
         public int? LookupHandingId { get; set; }

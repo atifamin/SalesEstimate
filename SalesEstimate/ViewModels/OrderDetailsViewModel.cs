@@ -43,10 +43,10 @@ namespace SalesEstimate.ViewModels
         [Display(Name = "Door Opening Sizes Height Inches")]
         public decimal HeightInches { get; set; }
 
-        [Display(Name = "If Unequal Pair Inactive Leaf Nominal Width Feet")]
+        [Display(Name = "If Unequal Pair Width Feet")]
         public int UnequalPairWidthFeet { get; set; }
 
-        [Display(Name = "If Unequal Pair Inactive Leaf Nominal Width Inches")]
+        [Display(Name = "If Unequal Pair Width Inches")]
         public decimal UnequalPairWidthInches { get; set; }
 
         [Display(Name = "Jamb Depth")]

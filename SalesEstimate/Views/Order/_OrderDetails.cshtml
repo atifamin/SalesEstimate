@@ -3,268 +3,444 @@
 @{
     ViewBag.Title = ViewBag.PageTitle;
 }
-<form class="row g-3 needs-validation" asp-action="CreateOrderDetail" method="post" novalidate>
+
     <input type="hidden" asp-for="OrderId" />
 
-    <div class="form-group col-md-6">
-        <label asp-for="OrderLine" class="form-label"></label>
-        <input asp-for="OrderLine" class="form-control" required />
-        <div class="invalid-feedback">
-            Please enter a Order Line.
+    <div class="accordion" id="orderDetailsAccordion">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOrderDetails_@Model.OrderLine">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOrderDetails_@Model.OrderLine" aria-expanded="true" aria-controls="collapseOrderDetails">
+                    Line No : @Model.OrderLine
+                </button>
+            </h2>
+            <div id="collapseOrderDetails_@Model.OrderLine" class="accordion-collapse collapse show" aria-labelledby="headingOrderDetails_@Model.OrderLine" data-bs-parent="#orderDetailsAccordion">
+                <div class="accordion-body">
+                    <!-- Order Details Section -->
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <label asp-for="FrameQty" class="form-label"></label>
+                            <input asp-for="FrameQty" class="form-control" required />
+                            <div class="invalid-feedback">
+                                Please enter the Frame Quantity.
+                            </div>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="LookupTypeId" class="form-label">Type</label>
+                            <select class="form-select" asp-for="LookupTypeId">
+                                <option value="">Select Types</option>
+                                @if (ViewBag.Types != null)
+                                {
+                                    foreach (var item in (SelectList)ViewBag.Types)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="LookupXifPairId" class="form-label">Xif Pair</label>
+                            <select asp-for="LookupXifPairId" class="form-select">
+                                <option value="">Select Xif Pair</option>
+                                @if (ViewBag.XifPair != null)
+                                {
+                                    foreach (var item in (SelectList)ViewBag.XifPair)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="LookupOtherThanDoorId" class="form-label">Other Than Door</label>
+                            <select asp-for="LookupOtherThanDoorId" class="form-select">
+                                <option value="">Select Other Than Door</option>
+                                @if (ViewBag.OtherThan1or3 != null)
+                                {
+                                    foreach (var item in (SelectList)ViewBag.OtherThan1or3)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <label asp-for="ElevationDrawing" class="form-label"></label>
+                            <input asp-for="ElevationDrawing" class="form-control" required />
+                            <div class="invalid-feedback">
+                                Please enter the Elevation Drawing.
+                            </div>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="WidthFeet" class="form-label"></label>
+                            <input asp-for="WidthFeet" class="form-control" required />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="WidthInches" class="form-label"></label>
+                            <input asp-for="WidthInches" class="form-control" required />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="HeightFeet" class="form-label"></label>
+                            <input asp-for="HeightFeet" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <label asp-for="HeightInches" class="form-label"></label>
+                            <input asp-for="HeightInches" class="form-control" required />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="UnequalPairWidthFeet" class="form-label"></label>
+                            <input asp-for="UnequalPairWidthFeet" class="form-control" required />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="UnequalPairWidthInches" class="form-label"></label>
+                            <input asp-for="UnequalPairWidthInches" class="form-control" required />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="LookupHandingId" class="form-label">Handing</label>
+                            <select asp-for="LookupHandingId" class="form-select">
+                                <option value="">Select Handing</option>
+                                @if (ViewBag.Handing != null)
+                                {
+                                    foreach (var item in (SelectList)ViewBag.Handing)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <label asp-for="LookupSteelMaterialId" class="form-label">Steel Material</label>
+                            <select asp-for="LookupSteelMaterialId" class="form-select">
+                                <option value="">Select Steel Material</option>
+                                @if (ViewBag.SteelMaterial != null)
+                                {
+                                    foreach (var item in (SelectList)ViewBag.SteelMaterial)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="LookupFireLabelId" class="form-label">Fire Label</label>
+                            <select asp-for="LookupFireLabelId" class="form-select">
+                                <option value="">Select Fire Label</option>
+                                @if (ViewBag.FireLabel != null)
+                                {
+                                    foreach (var item in (SelectList)ViewBag.FireLabel)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="LookupSeriesId" class="form-label">Series</label>
+                            <select asp-for="LookupSeriesId" class="form-select">
+                                <option value="">Select Series</option>
+                                @if (ViewBag.Series != null)
+                                {
+                                    foreach (var item in (SelectList)ViewBag.Series)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="LookupProfileId" class="form-label">Profile</label>
+                            <select asp-for="LookupProfileId" class="form-select">
+                                <option value="">Select Profile</option>
+                                @if (ViewBag.Profile != null)
+                                {
+                                    foreach (var item in (SelectList)ViewBag.Profile)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <label asp-for="LookupProfileOptionId" class="form-label">Profile Option</label>
+                            <select asp-for="LookupProfileOptionId" id="LookupProfileOptionId" class="form-select">
+                                <option value="">Select Profile Option</option>
+                                @if (ViewBag.ProfileOption != null)
+                                {
+                                    foreach (var item in (SelectList)ViewBag.ProfileOption)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                            <div class="invalid-feedback">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="LookupReturnId" class="form-label">Return (DE, CF, SF only)</label>
+                            <select asp-for="LookupReturnId" id="LookupReturnId" class="form-select">
+                                <option value="">Select Return</option>
+                                @if (ViewBag.Return != null)
+                                {
+                                    foreach (var item in (SelectList)ViewBag.Return)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                            <div class="invalid-feedback">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="LookupGaugeId" class="form-label">Gauge</label>
+                            <select asp-for="LookupGaugeId" id="LookupGaugeId" class="form-select">
+                                <option value="">Select Gauge</option>
+                                @if (ViewBag.Gauge != null)
+                                {
+                                    foreach (var item in (SelectList)ViewBag.Gauge)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                            <div class="invalid-feedback">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="JambDepth" class="form-label"></label>
+                            <input asp-for="JambDepth" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <label asp-for="HingeJamb" class="form-label"></label>
+                            <input asp-for="HingeJamb" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="StrikeJamb" class="form-label"></label>
+                            <input asp-for="StrikeJamb" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="Head" class="form-label"></label>
+                            <input asp-for="Head" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="LookupAssemblyId" class="form-label">Assembly</label>
+                            <select asp-for="LookupAssemblyId" id="LookupAssemblyId" class="form-select">
+                                <option value="">Select Assembly</option>
+                                @if (ViewBag.Assembly != null)
+                                {
+                                    foreach (var item in (SelectList)ViewBag.Assembly)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                            <div class="invalid-feedback">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <label asp-for="LookupAnchorsId" class="form-label">Anchors</label>
+                            <select asp-for="LookupAnchorsId" id="LookupAnchorsId" class="form-select">
+                                <option value="">Select Anchors</option>
+                                @if (ViewBag.Anchors != null)
+                                {
+                                    foreach (var item in (SelectList)ViewBag.Anchors)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                            <div class="invalid-feedback">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="LookupAdditionalAnchorsId" class="form-label">Additional Anchors</label>
+                            <select asp-for="LookupAdditionalAnchorsId" id="LookupAdditionalAnchorsId" class="form-select">
+                                <option value="">Select Additional Anchors</option>
+                                @if (ViewBag.AdditionalAnchors != null)
+                                {
+                                    foreach (var item in (SelectList)ViewBag.AdditionalAnchors)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                            <div class="invalid-feedback">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="QTY" class="form-label"></label>
+                            <input asp-for="QTY" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="LookupHingesId" class="form-label">Hinges</label>
+                            <select asp-for="LookupHingesId" id="LookupHingesId" class="form-select">
+                                <option value="">Select Hinges</option>
+                                @if (ViewBag.Hinges != null)
+                                {
+                                    foreach (var item in (SelectList)ViewBag.Hinges)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                            <div class="invalid-feedback">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <label asp-for="LookupAdditionaloptionOnHingeId" class="form-label">Additional Option On Hinge</label>
+                            <select asp-for="LookupAdditionaloptionOnHingeId" id="LookupAdditionaloptionOnHingeId" class="form-select">
+                                <option value="">Select Additional Option On Hinges</option>
+                                @if (ViewBag.Hinges != null)
+                                {
+                                    foreach (var item in (SelectList)ViewBag.Hinges)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="LookupHardwareLocationId" class="form-label">Hardware Location</label>
+                            <select asp-for="LookupHardwareLocationId" id="LookupHardwareLocationId" class="form-select">
+                                <option value="">Select Hardware Location</option>
+                                @if (ViewBag.HardwareLocation != null)
+                                {
+                                    foreach (var item in (SelectList)ViewBag.HardwareLocation)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="LookupHeadPrepId" class="form-label">Head Prep</label>
+                            <select asp-for="LookupHeadPrepId" id="LookupHeadPrepId" class="form-select">
+                                <option value="">Select Head Prep</option>
+                                @if (ViewBag.HeadPrep != null)
+                                {
+                                    foreach (var item in (SelectList)ViewBag.HeadPrep)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="LookupStrikeId" class="form-label">Strike</label>
+                            <select asp-for="LookupStrikeId" id="LookupStrikeId" class="form-select">
+                                <option value="">Select Strike</option>
+                                @if (ViewBag.Strike != null)
+                                {
+                                    foreach (var item in (SelectList)ViewBag.Strike)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <label asp-for="LookupAdditionalStrikeId" class="form-label">Additional Strike</label>
+                            <select asp-for="LookupAdditionalStrikeId" id="LookupAdditionalStrikeId" class="form-select">
+                                <option value="">Select Additional Strike</option>
+                                @if (ViewBag.AdditionalStrike != null)
+                                {
+                                    foreach (var item in (SelectList)ViewBag.AdditionalStrike)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="LookupCloserId" class="form-label">Closers</label>
+                            <select asp-for="LookupCloserId" id="LookupCloserId" class="form-select">
+                                <option value="">Select Closers</option>
+                                @if (ViewBag.Closers != null)
+                                {
+                                    foreach (var item in (SelectList)ViewBag.Closers)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="LookupFinishId" class="form-label">Finish</label>
+                            <select asp-for="LookupFinishId" id="LookupFinishId" class="form-select">
+                                <option value="">Select Finish</option>
+                                @if (ViewBag.Finish != null)
+                                {
+                                    foreach (var item in (SelectList)ViewBag.Finish)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="LookupOptions1Id" class="form-label">Options1</label>
+                            <select asp-for="LookupOptions1Id" id="LookupOptions1Id" class="form-select">
+                                <option value="">Select Option</option>
+                                @if (ViewBag.Options1 != null)
+                                {
+                                    foreach (var item in (SelectList)ViewBag.Options1)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <label asp-for="LookupOptions2Id" class="form-label">Options2</label>
+                            <select asp-for="LookupOptions2Id" id="LookupOptions2Id" class="form-select">
+                                <option value="">Select Options</option>
+                                @if (ViewBag.Options2 != null)
+                                {
+                                    foreach (var item in (SelectList)ViewBag.Options2)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="LookupOptions3Id" class="form-label">Options3</label>
+                            <select asp-for="LookupOptions3Id" id="LookupOptions3Id" class="form-select">
+                                <option value="">Select Options</option>
+                                @if (ViewBag.Options3 != null)
+                                {
+                                    foreach (var item in (SelectList)ViewBag.Options3)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    @* <div class="form-group text-end mt-3">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div> *@
+                </div>
+            </div>
         </div>
+        
     </div>
-
-    <div class="form-group col-md-6">
-        <label asp-for="FrameQty" class="form-label"></label>
-        <input asp-for="FrameQty" class="form-control" />
-        <div class="invalid-feedback">
-        </div>
-    </div>
-
-    <div class="form-group col-md-6">
-        <label asp-for="EstimatedSubTotal" class="form-label"></label>
-        <input asp-for="EstimatedSubTotal" class="form-control" />
-        <div class="invalid-feedback">
-            Total)
-        </div>
-    </div>
-
-    <div class="form-group col-md-6">
-        <label asp-for="AdditionalCharges" class="form-label"></label>
-        <input asp-for="AdditionalCharges" class="form-control" />
-        <div class="invalid-feedback">
-            arges)
-        </div>
-    </div>
-
-    <div class="form-group col-md-6">
-        <label asp-for="OtherCharges" class="form-label"></label>
-        <input asp-for="OtherCharges" class="form-control" />
-        <div class="invalid-feedback">
-            )
-        </div>
-    </div>
-
-    <div class="form-group col-md-6">
-        <label asp-for="EstimatedFreight" class="form-label"></label>
-        <input asp-for="EstimatedFreight" class="form-control" />
-        <div class="invalid-feedback">
-            ight)
-        </div>
-    </div>
-
-    <div class="form-group col-md-6">
-        <label asp-for="EstimatedTotal" class="form-label"></label>
-        <input asp-for="EstimatedTotal" class="form-control" />
-        <div class="invalid-feedback">
-            al)
-        </div>
-    </div>
-
-    <div class="form-group col-md-6">
-        <label asp-for="ElevationDrawing" class="form-label"></label>
-        <input asp-for="ElevationDrawing" class="form-control" />
-        <div class="invalid-feedback">
-            wing)
-        </div>
-    </div>
-
-    <div class="form-group col-md-3">
-        <label asp-for="WidthFeet" class="form-label"></label>
-        <input asp-for="WidthFeet" class="form-control" />
-        <div class="invalid-feedback">
-        </div>
-    </div>
-
-    <div class="form-group col-md-3">
-        <label asp-for="WidthInches" class="form-label"></label>
-        <input asp-for="WidthInches" class="form-control" />
-        <div class="invalid-feedback">
-        </div>
-    </div>
-
-    <div class="form-group col-md-3">
-        <label asp-for="HeightFeet" class="form-label"></label>
-        <input asp-for="HeightFeet" class="form-control" />
-        <div class="invalid-feedback">
-        </div>
-    </div>
-
-    <div class="form-group col-md-3">
-        <label asp-for="HeightInches" class="form-label"></label>
-        <input asp-for="HeightInches" class="form-control" />
-        <div class="invalid-feedback">
-            )
-        </div>
-    </div>
-
-    <div class="form-group col-md-3">
-        <label asp-for="UnequalPairWidthFeet" class="form-label"></label>
-        <input asp-for="UnequalPairWidthFeet" class="form-control" />
-        <div class="invalid-feedback">
-            idthFeet)
-        </div>
-    </div>
-
-    <div class="form-group col-md-3">
-        <label asp-for="UnequalPairWidthInches" class="form-label"></label>
-        <input asp-for="UnequalPairWidthInches" class="form-control" />
-        <div class="invalid-feedback">
-            idthInches)
-        </div>
-    </div>
-
-    <div class="form-group col-md-3">
-        <label asp-for="JambDepth" class="form-label"></label>
-        <input asp-for="JambDepth" class="form-control" />
-        <div class="invalid-feedback">
-        </div>
-    </div>
-
-    <div class="form-group col-md-3">
-        <label asp-for="HingeJamb" class="form-label"></label>
-        <input asp-for="HingeJamb" class="form-control" />
-        <div class="invalid-feedback">
-        </div>
-    </div>
-
-    <div class="form-group col-md-3">
-        <label asp-for="StrikeJamb" class="form-label"></label>
-        <input asp-for="StrikeJamb" class="form-control" />
-        <div class="invalid-feedback">
-        </div>
-    </div>
-
-    <div class="form-group col-md-3">
-        <label asp-for="Head" class="form-label"></label>
-        <input asp-for="Head" class="form-control" />
-        <div class="invalid-feedback">
-        </div>
-    </div>
-
-    <div class="form-group col-md-3">
-        <label asp-for="QTY" class="form-label"></label>
-        <input asp-for="QTY" class="form-control" />
-        <div class="invalid-feedback">
-        </div>
-    </div>
-
-    <div class="form-group col-md-6">
-        <label asp-for="LookupTypeId" class="form-label">Lookup Type</label>
-        <select class="form-select" id="LookupTypeId" asp-for="LookupTypeId">
-            <option value="">Select Lookup Type</option>
-            @if (ViewBag.Types != null)
-            {
-                foreach (var item in (SelectList)ViewBag.Types)
-                {
-                    <option value="@item.Value">@item.Text</option>
-                }
-            }
-        </select>
-        <div class="invalid-feedback">
-        </div>
-    </div>
-
-    <div class="form-group col-md-6">
-        <label asp-for="LookupXifPairId" class="form-label">Xif Pair</label>
-        <select asp-for="LookupXifPairId" class="form-select" id="LookupXifPairId">
-            <option value="">Select Xif Pair</option>
-            @if (ViewBag.XifPair != null)
-            {
-                foreach (var item in (SelectList)ViewBag.XifPair)
-                {
-                    <option value="@item.Value">@item.Text</option>
-                }
-            }
-        </select>
-        <div class="invalid-feedback">
-        </div>
-    </div>
-
-    <div class="form-group col-md-6">
-        <label asp-for="LookupOtherThanDoorId" class="form-label">Other Than Door</label>
-        <select asp-for="LookupOtherThanDoorId" id="LookupOtherThanDoorId" class="form-select">
-            <option value="">Select Other Than Door</option>
-            @if (ViewBag.OtherThan1or3 != null)
-            {
-                foreach (var item in (SelectList)ViewBag.OtherThan1or3)
-                {
-                    <option value="@item.Value">@item.Text</option>
-                }
-            }
-        </select>
-        <div class="invalid-feedback">
-        </div>
-    </div>
-
-    <div class="form-group col-md-6">
-        <label asp-for="LookupHandingId" class="form-label">Handing</label>
-        <select asp-for="LookupHandingId" id="LookupHandingId" class="form-select">
-            <option value="">Select Handing</option>
-            @if (ViewBag.Handing != null)
-            {
-                foreach (var item in (SelectList)ViewBag.Handing)
-                {
-                    <option value="@item.Value">@item.Text</option>
-                }
-            }
-        </select>
-        <div class="invalid-feedback">
-        </div>
-    </div>
-
-    <div class="form-group col-md-6">
-        <label asp-for="LookupSteelMaterialId" class="form-label">Steel Material</label>
-        <select asp-for="LookupSteelMaterialId" id="LookupSteelMaterialId" class="form-select">
-            <option value="">Select Steel Material</option>
-            @if (ViewBag.SteelMaterial != null)
-            {
-                foreach (var item in (SelectList)ViewBag.SteelMaterial)
-                {
-                    <option value="@item.Value">@item.Text</option>
-                }
-            }
-        </select>
-        <div class="invalid-feedback">
-        </div>
-    </div>
-    <div class="form-group col-md-6">
-        <label asp-for="LookupFireLabelId" class="form-label">Fire Label</label>
-        <select asp-for="LookupFireLabelId" id="LookupFireLabelId" class="form-select">
-            <option value="">Select Fire Label</option>
-            @if (ViewBag.FireLabel != null)
-            {
-                foreach (var item in (SelectList)ViewBag.FireLabel)
-                {
-                    <option value="@item.Value">@item.Text</option>
-                }
-            }
-        </select>
-        <div class="invalid-feedback">
-        </div>
-    </div>
-    <div class="form-group col-md-12">
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </div>
-    <div class="form-group col-md-6">
-        <label asp-for="LookupSeriesId" class="form-label">Series</label>
-        <select asp-for="LookupSeriesId" id="LookupSeriesId" class="form-select">
-            <option value="">Select Fire Label</option>
-            @if (ViewBag.Series != null)
-            {
-                foreach (var item in (SelectList)ViewBag.Series)
-                {
-                    <option value="@item.Value">@item.Text</option>
-                }
-            }
-        </select>
-        <div class="invalid-feedback">
-        </div>
-    </div>
-    <div class="form-group col-md-12">
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </div>
-</form>
 
 @section Scripts {
     <script>
