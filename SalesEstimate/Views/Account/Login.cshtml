@@ -5,27 +5,52 @@
 
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="text-center">Login</h3>
+        <div class="col-md-6 col-sm-12">
+            <div class="card shadow">
+                <div class="card-header text-center">
+                    <h3 class="mb-0">Login</h3>
                 </div>
                 <div class="card-body">
+                    @if (ViewData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @ViewData["ErrorMessage"]
+                        </div>
+                    }
                     <form asp-action="Login" method="post">
-                        <div class="mb-3">
-                            <label for="UserName" class="form-label">User Name</label>
+                        <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="UserName" asp-for="UserName" placeholder="Enter your username" required>
+                            <label for="UserName">User Name</label>
                             <span asp-validation-for="UserName" class="text-danger"></span>
                         </div>
-                        <div class="mb-3">
-                            <label for="Password" class="form-label">Password</label>
+                        <div class="form-floating mb-3 position-relative">
                             <input type="password" class="form-control" id="Password" asp-for="Password" placeholder="Enter your password" required>
+                            <label for="Password">Password</label>
                             <span asp-validation-for="Password" class="text-danger"></span>
+                            <span class="position-absolute top-50 end-0 translate-middle-y me-3" style="cursor:pointer;" onclick="togglePassword()">
+                                <i class="fa-solid fa-eye" id="togglePasswordIcon"></i>
+                            </span>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Login</button>
+                        <button type="submit" class="btn btn-primary w-100 mb-2">Login</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    function togglePassword() {
+        const passwordField = document.getElementById('Password');
+        const toggleIcon = document.getElementById('togglePasswordIcon');
+
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            toggleIcon.classList.remove('fa-eye');
+            toggleIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordField.type = 'password';
+            toggleIcon.classList.remove('fa-eye-slash');
+            toggleIcon.classList.add('fa-eye');
+        }
+    }
+</script>

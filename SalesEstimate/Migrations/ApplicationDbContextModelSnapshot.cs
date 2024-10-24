@@ -182,6 +182,9 @@ namespace SalesEstimate.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -305,6 +308,10 @@ namespace SalesEstimate.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AdditionalShippingInstructions")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("City")
                         .HasMaxLength(100)
@@ -447,6 +454,9 @@ namespace SalesEstimate.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("AdditionalCharges")
+                        .HasColumnType("int");
+
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
@@ -457,7 +467,16 @@ namespace SalesEstimate.Migrations
                     b.Property<string>("ElevationDrawing")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("FrameQty")
+                    b.Property<int?>("EstimatedFreight")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("EstimatedSubTotal")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("EstimatedTotal")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("FrameQty")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Head")
@@ -561,6 +580,12 @@ namespace SalesEstimate.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OrderLine")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OtherCharges")
                         .HasColumnType("int");
 
                     b.Property<int>("QTY")
@@ -812,7 +837,7 @@ namespace SalesEstimate.Migrations
                         .HasForeignKey("LookupXifPairId");
 
                     b.HasOne("SalesEstimate.Models.Order", "Order")
-                        .WithMany()
+                        .WithMany("OrderDetails")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -868,6 +893,11 @@ namespace SalesEstimate.Migrations
                     b.Navigation("LookupXifPair");
 
                     b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("SalesEstimate.Models.Order", b =>
+                {
+                    b.Navigation("OrderDetails");
                 });
 #pragma warning restore 612, 618
         }

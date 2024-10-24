@@ -1,1 +1,107 @@
-﻿
+﻿@model IEnumerable<SalesEstimate.Models.Order>
+@{
+    Layout = "_Layout";
+}
+
+<h2>All Orders</h2>
+
+<table id="ordersTable" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Contact Name</th>
+            <th>Company Name</th>
+            <th>Order Date</th>
+            <th>Required Date</th>
+            <th>State</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr id="orderRow_@order.Id">
+                <td>@order.Id</td>
+                <td>@order.ContactName</td>
+                <td>@order.CompanyName</td>
+                <td>@order.OrderDate.ToShortDateString()</td>
+                <td>@order.RequiredDate.ToShortDateString()</td>
+                <td>@order.LookupState?.Name</td>
+                <td>
+                    <a href="@Url.Action("Edit", "Order", new { id = order.Id })" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+                    <a href ="#" onclick="deleteOrder(@order.Id)" class="btn btn-danger"><i class="fa fa-trash-alt"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#ordersTable').DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                pageLength: 10,
+                lengthMenu: [10, 25, 50, 100],
+                language: {
+                    lengthMenu: "Show _MENU_ entries per page",
+                    info: "Showing _START_ to _END_ of _TOTAL_ entries",
+                    search: "Search:",
+                },
+            });
+        });
+
+        function deleteOrder(orderId) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You won\'t be able to revert this!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '@Url.Action("Delete", "Order")', // Ensure this URL is correct
+                        type: 'POST',
+                        data: { id: orderId }, // Send ID as form data
+                        success: function () {
+                            Swal.fire(
+                                'Deleted!',
+                                'Your order has been deleted.',
+                                'success'
+                            ).then(() => {
+                                location.reload();
+                            });
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error details:', {
+                                status: status,
+                                error: error,
+                                response: xhr.responseText 
+                            });
+
+                            // Optionally, display a user-friendly error message
+                            let errorMessage = 'There was an issue deleting the order.';
+                            if (xhr.status === 404) {
+                                errorMessage = 'Order not found. It may have already been deleted.';
+                            } else if (xhr.status === 500) {
+                                errorMessage = 'Internal server error. Please try again later.';
+                            }
+
+                            Swal.fire(
+                                'Error!',
+                                errorMessage,
+                                'error'
+                            );
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+}

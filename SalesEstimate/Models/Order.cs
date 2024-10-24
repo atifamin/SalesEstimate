@@ -7,7 +7,7 @@ namespace SalesEstimate.Models
     {
         [Key]
         public int Id { get; set; }
-
+        public List<OrderDetail> OrderDetails { get; set; }
         public int? ParentOrderId { get; set; }
         public int? RevisionNumber { get; set; }
 
@@ -86,20 +86,15 @@ namespace SalesEstimate.Models
         public string? JobSiteContactPhone { get; set; }
         [MaxLength(255)]
         public string? AdditionalShippingInstructions { get; set; }
-
         public decimal? Standard { get; set; }
         public decimal? Fastlane { get; set; }
         public decimal? Express { get; set; }
         public decimal? Turbo { get; set; }
-
         [MaxLength(450)]
         public string? CreatedBy { get; set; }
-
         public DateTime? CreatedDate { get; set; }
-
         [MaxLength(450)]
         public string? ModifiedBy { get; set; }
-
         public DateTime? ModifiedDate { get; set; }
     }
 }

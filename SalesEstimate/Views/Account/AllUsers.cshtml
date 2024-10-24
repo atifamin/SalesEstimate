@@ -6,7 +6,7 @@
 
 <h2>All Users</h2>
 
-<table class="table table-striped">
+<table id="Datatable" class="table table-bordered table-striped">
     <thead>
         <tr>
             <th>Username</th>
@@ -39,7 +39,7 @@
                         <i class="fa fa-edit"></i>
                     </a>
 
-                    <a href="@Url.Action("Delete", new { id = user.Id })" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?');">
+                    <a href="#" class="btn btn-danger btn-sm delete-user" data-id="@user.Id">
                         <i class="fa fa-trash-alt"></i>
                     </a>
                 </td>
@@ -176,6 +176,66 @@
                         });
                     }
                 });
+            });
+            $('.delete-user').click(function (e) {
+                e.preventDefault();
+                var userId = $(this).data('id'); // Retrieve the user ID
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "This action cannot be undone!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '@Url.Action("Delete", "Account")', // Adjust controller and action if needed
+                            type: 'POST',
+                            data: { id: userId },
+                            success: function (response) {
+                                if (response.success) {
+                                    Swal.fire(
+                                        'Deleted!',
+                                        'User has been deleted.',
+                                        'success'
+                                    ).then(() => {
+                                        location.reload(); // Reload the page or update the UI as needed
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Delete Failed',
+                                        text: 'Failed to delete user.'
+                                    });
+                                }
+                            },
+                            error: function () {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'Failed to delete user.'
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+        });
+        $(document).ready(function () {
+            $('#Datatable').DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                pageLength: 10,
+                lengthMenu: [10, 25, 50, 100],
+                language: {
+                    lengthMenu: "Show _MENU_ entries per page",
+                    info: "Showing _START_ to _END_ of _TOTAL_ entries",
+                    search: "Search:",
+                },
             });
         });
     </script>

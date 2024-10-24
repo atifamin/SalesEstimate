@@ -12,8 +12,8 @@ using SalesEstimate.Data;
 namespace SalesEstimate.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240815133247__AddOrderDetailTable")]
-    partial class _AddOrderDetailTable
+    [Migration("20241021120745__AddConfirmpassword")]
+    partial class _AddConfirmpassword
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -185,6 +185,9 @@ namespace SalesEstimate.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -287,7 +290,7 @@ namespace SalesEstimate.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("LookupTypeId")
+                    b.Property<int>("LookupTypeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -308,6 +311,10 @@ namespace SalesEstimate.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AdditionalShippingInstructions")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("City")
                         .HasMaxLength(100)
@@ -402,6 +409,11 @@ namespace SalesEstimate.Migrations
                     b.Property<decimal?>("ProjectTotalValue")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("QuotationRequest")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("QuoteNumber")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -445,6 +457,9 @@ namespace SalesEstimate.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("AdditionalCharges")
+                        .HasColumnType("int");
+
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
@@ -455,7 +470,16 @@ namespace SalesEstimate.Migrations
                     b.Property<string>("ElevationDrawing")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("FrameQty")
+                    b.Property<int?>("EstimatedFreight")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("EstimatedSubTotal")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("EstimatedTotal")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("FrameQty")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Head")
@@ -559,6 +583,12 @@ namespace SalesEstimate.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OrderLine")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OtherCharges")
                         .HasColumnType("int");
 
                     b.Property<int>("QTY")
@@ -691,7 +721,9 @@ namespace SalesEstimate.Migrations
                 {
                     b.HasOne("SalesEstimate.Models.LookupType", "LookupType")
                         .WithMany()
-                        .HasForeignKey("LookupTypeId");
+                        .HasForeignKey("LookupTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("LookupType");
                 });
@@ -808,7 +840,7 @@ namespace SalesEstimate.Migrations
                         .HasForeignKey("LookupXifPairId");
 
                     b.HasOne("SalesEstimate.Models.Order", "Order")
-                        .WithMany()
+                        .WithMany("OrderDetails")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -864,6 +896,11 @@ namespace SalesEstimate.Migrations
                     b.Navigation("LookupXifPair");
 
                     b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("SalesEstimate.Models.Order", b =>
+                {
+                    b.Navigation("OrderDetails");
                 });
 #pragma warning restore 612, 618
         }

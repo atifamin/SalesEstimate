@@ -4,7 +4,6 @@ namespace SalesEstimate.ViewModels
 {
     public class OrderDetailsViewModel
     {
-        public int Id { get; set; }
         public int OrderId { get; set; }
 
         [Display(Name = "Order Line")]

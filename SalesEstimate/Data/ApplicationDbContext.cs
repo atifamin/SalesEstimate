@@ -16,5 +16,6 @@ namespace SalesEstimate.Data
         public DbSet<LookupValue> LookupValues { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
+        
     }
 }

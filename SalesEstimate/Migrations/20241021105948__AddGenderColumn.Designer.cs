@@ -12,8 +12,8 @@ using SalesEstimate.Data;
 namespace SalesEstimate.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240814154834__AddLookupTables")]
-    partial class _AddLookupTables
+    [Migration("20241021105948__AddGenderColumn")]
+    partial class _AddGenderColumn
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -185,6 +185,9 @@ namespace SalesEstimate.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool?>("Gender")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -287,7 +290,7 @@ namespace SalesEstimate.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("LookupTypeId")
+                    b.Property<int>("LookupTypeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -308,6 +311,10 @@ namespace SalesEstimate.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AdditionalShippingInstructions")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("City")
                         .HasMaxLength(100)
@@ -402,6 +409,11 @@ namespace SalesEstimate.Migrations
                     b.Property<decimal?>("ProjectTotalValue")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("QuotationRequest")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("QuoteNumber")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -435,6 +447,223 @@ namespace SalesEstimate.Migrations
                     b.HasIndex("LookupStateId");
 
                     b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("SalesEstimate.Models.OrderDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("AdditionalCharges")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ElevationDrawing")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("EstimatedFreight")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("EstimatedSubTotal")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("EstimatedTotal")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("FrameQty")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Head")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("HeightFeet")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("HeightInches")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("HingeJamb")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("JambDepth")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("LookupAdditionalAnchorsId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LookupAdditionalStrikeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LookupAdditionaloptionOnHingeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LookupAnchorsId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LookupAssemblyId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LookupCloserId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LookupFinishId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LookupFireLabelId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LookupGaugeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LookupHandingId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LookupHandingTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LookupHardwareLocationId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LookupHeadPrepId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LookupHingesId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LookupOptions1Id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LookupOptions2Id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LookupOptions3Id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LookupOtherThanDoorId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LookupProfileId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LookupProfileOptionId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LookupReturnId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LookupSeriesId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LookupSteelMaterialId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LookupStrikeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LookupTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LookupXifPairId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OrderLine")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OtherCharges")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QTY")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("StrikeJamb")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("UnequalPairWidthFeet")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("UnequalPairWidthInches")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("WidthFeet")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("WidthInches")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LookupAdditionalAnchorsId");
+
+                    b.HasIndex("LookupAdditionalStrikeId");
+
+                    b.HasIndex("LookupAdditionaloptionOnHingeId");
+
+                    b.HasIndex("LookupAnchorsId");
+
+                    b.HasIndex("LookupAssemblyId");
+
+                    b.HasIndex("LookupCloserId");
+
+                    b.HasIndex("LookupFinishId");
+
+                    b.HasIndex("LookupFireLabelId");
+
+                    b.HasIndex("LookupGaugeId");
+
+                    b.HasIndex("LookupHandingTypeId");
+
+                    b.HasIndex("LookupHardwareLocationId");
+
+                    b.HasIndex("LookupHeadPrepId");
+
+                    b.HasIndex("LookupHingesId");
+
+                    b.HasIndex("LookupOptions1Id");
+
+                    b.HasIndex("LookupOptions2Id");
+
+                    b.HasIndex("LookupOptions3Id");
+
+                    b.HasIndex("LookupOtherThanDoorId");
+
+                    b.HasIndex("LookupProfileId");
+
+                    b.HasIndex("LookupProfileOptionId");
+
+                    b.HasIndex("LookupReturnId");
+
+                    b.HasIndex("LookupSeriesId");
+
+                    b.HasIndex("LookupSteelMaterialId");
+
+                    b.HasIndex("LookupStrikeId");
+
+                    b.HasIndex("LookupTypeId");
+
+                    b.HasIndex("LookupXifPairId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -492,7 +721,9 @@ namespace SalesEstimate.Migrations
                 {
                     b.HasOne("SalesEstimate.Models.LookupType", "LookupType")
                         .WithMany()
-                        .HasForeignKey("LookupTypeId");
+                        .HasForeignKey("LookupTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("LookupType");
                 });
@@ -504,6 +735,172 @@ namespace SalesEstimate.Migrations
                         .HasForeignKey("LookupStateId");
 
                     b.Navigation("LookupState");
+                });
+
+            modelBuilder.Entity("SalesEstimate.Models.OrderDetail", b =>
+                {
+                    b.HasOne("SalesEstimate.Models.LookupValue", "LookupAdditionalAnchors")
+                        .WithMany()
+                        .HasForeignKey("LookupAdditionalAnchorsId");
+
+                    b.HasOne("SalesEstimate.Models.LookupValue", "LookupAdditionalStrike")
+                        .WithMany()
+                        .HasForeignKey("LookupAdditionalStrikeId");
+
+                    b.HasOne("SalesEstimate.Models.LookupValue", "LookupAdditionaloptionOnHinge")
+                        .WithMany()
+                        .HasForeignKey("LookupAdditionaloptionOnHingeId");
+
+                    b.HasOne("SalesEstimate.Models.LookupValue", "LookupAnchors")
+                        .WithMany()
+                        .HasForeignKey("LookupAnchorsId");
+
+                    b.HasOne("SalesEstimate.Models.LookupValue", "LookupAssembly")
+                        .WithMany()
+                        .HasForeignKey("LookupAssemblyId");
+
+                    b.HasOne("SalesEstimate.Models.LookupValue", "LookupCloser")
+                        .WithMany()
+                        .HasForeignKey("LookupCloserId");
+
+                    b.HasOne("SalesEstimate.Models.LookupValue", "LookupFinish")
+                        .WithMany()
+                        .HasForeignKey("LookupFinishId");
+
+                    b.HasOne("SalesEstimate.Models.LookupValue", "LookupFireLabel")
+                        .WithMany()
+                        .HasForeignKey("LookupFireLabelId");
+
+                    b.HasOne("SalesEstimate.Models.LookupValue", "LookupGauge")
+                        .WithMany()
+                        .HasForeignKey("LookupGaugeId");
+
+                    b.HasOne("SalesEstimate.Models.LookupValue", "LookupHandingType")
+                        .WithMany()
+                        .HasForeignKey("LookupHandingTypeId");
+
+                    b.HasOne("SalesEstimate.Models.LookupValue", "LookupHardwareLocation")
+                        .WithMany()
+                        .HasForeignKey("LookupHardwareLocationId");
+
+                    b.HasOne("SalesEstimate.Models.LookupValue", "LookupHeadPrep")
+                        .WithMany()
+                        .HasForeignKey("LookupHeadPrepId");
+
+                    b.HasOne("SalesEstimate.Models.LookupValue", "LookupHinges")
+                        .WithMany()
+                        .HasForeignKey("LookupHingesId");
+
+                    b.HasOne("SalesEstimate.Models.LookupValue", "LookupOptions1")
+                        .WithMany()
+                        .HasForeignKey("LookupOptions1Id");
+
+                    b.HasOne("SalesEstimate.Models.LookupValue", "LookupOptions2")
+                        .WithMany()
+                        .HasForeignKey("LookupOptions2Id");
+
+                    b.HasOne("SalesEstimate.Models.LookupValue", "LookupOptions3")
+                        .WithMany()
+                        .HasForeignKey("LookupOptions3Id");
+
+                    b.HasOne("SalesEstimate.Models.LookupValue", "LookupOtherThanDoor")
+                        .WithMany()
+                        .HasForeignKey("LookupOtherThanDoorId");
+
+                    b.HasOne("SalesEstimate.Models.LookupValue", "LookupProfile")
+                        .WithMany()
+                        .HasForeignKey("LookupProfileId");
+
+                    b.HasOne("SalesEstimate.Models.LookupValue", "LookupProfileOption")
+                        .WithMany()
+                        .HasForeignKey("LookupProfileOptionId");
+
+                    b.HasOne("SalesEstimate.Models.LookupValue", "LookupReturn")
+                        .WithMany()
+                        .HasForeignKey("LookupReturnId");
+
+                    b.HasOne("SalesEstimate.Models.LookupValue", "LookupSeries")
+                        .WithMany()
+                        .HasForeignKey("LookupSeriesId");
+
+                    b.HasOne("SalesEstimate.Models.LookupValue", "LookupSteelMaterial")
+                        .WithMany()
+                        .HasForeignKey("LookupSteelMaterialId");
+
+                    b.HasOne("SalesEstimate.Models.LookupValue", "LookupStrike")
+                        .WithMany()
+                        .HasForeignKey("LookupStrikeId");
+
+                    b.HasOne("SalesEstimate.Models.LookupValue", "LookupType")
+                        .WithMany()
+                        .HasForeignKey("LookupTypeId");
+
+                    b.HasOne("SalesEstimate.Models.LookupValue", "LookupXifPair")
+                        .WithMany()
+                        .HasForeignKey("LookupXifPairId");
+
+                    b.HasOne("SalesEstimate.Models.Order", "Order")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("LookupAdditionalAnchors");
+
+                    b.Navigation("LookupAdditionalStrike");
+
+                    b.Navigation("LookupAdditionaloptionOnHinge");
+
+                    b.Navigation("LookupAnchors");
+
+                    b.Navigation("LookupAssembly");
+
+                    b.Navigation("LookupCloser");
+
+                    b.Navigation("LookupFinish");
+
+                    b.Navigation("LookupFireLabel");
+
+                    b.Navigation("LookupGauge");
+
+                    b.Navigation("LookupHandingType");
+
+                    b.Navigation("LookupHardwareLocation");
+
+                    b.Navigation("LookupHeadPrep");
+
+                    b.Navigation("LookupHinges");
+
+                    b.Navigation("LookupOptions1");
+
+                    b.Navigation("LookupOptions2");
+
+                    b.Navigation("LookupOptions3");
+
+                    b.Navigation("LookupOtherThanDoor");
+
+                    b.Navigation("LookupProfile");
+
+                    b.Navigation("LookupProfileOption");
+
+                    b.Navigation("LookupReturn");
+
+                    b.Navigation("LookupSeries");
+
+                    b.Navigation("LookupSteelMaterial");
+
+                    b.Navigation("LookupStrike");
+
+                    b.Navigation("LookupType");
+
+                    b.Navigation("LookupXifPair");
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("SalesEstimate.Models.Order", b =>
+                {
+                    b.Navigation("OrderDetails");
                 });
 #pragma warning restore 612, 618
         }

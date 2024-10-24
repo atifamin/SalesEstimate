@@ -50,12 +50,12 @@ namespace SalesEstimate.Controllers
                     }
 
                     _logger.LogWarning("Invalid login attempt for user {UserName}.", model.UserName);
-                    ModelState.AddModelError("", "Invalid login attempt");
+                    ViewData["ErrorMessage"] = "Please check your username and password";
                 }
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, "An error occurred during login for user {UserName}.", model.UserName);
-                    ModelState.AddModelError("", "An unexpected error occurred. Please try again later.");
+                    ViewData["ErrorMessage"] = "An unexpected error occurred. Please try again later.";
                 }
             }
 
@@ -65,9 +65,21 @@ namespace SalesEstimate.Controllers
         public IActionResult Register(string? returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            return View();
+            return View(new RegisterViewModel());
         }
 
+        public async Task CreateRolesIfNotExists(RoleManager<IdentityRole> roleManager)
+        {
+            string[] roleNames = { "User", "Admin" }; 
+            foreach (var roleName in roleNames)
+            {
+                var roleExist = await roleManager.RoleExistsAsync(roleName);
+                if (!roleExist)
+                {
+                    await roleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
+        }
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model, string? returnUrl = null)
         {
@@ -77,14 +89,18 @@ namespace SalesEstimate.Controllers
             {
                 try
                 {
+                    // Generate username from first and last name
+                    model.UserName = $"{model.FirstName}{model.LastName}";
                     _logger.LogInformation("User {UserName} attempting to register.", model.UserName);
 
-                    ApplicationUser user = new()
+                    // Create a new ApplicationUser instance
+                    var user = new ApplicationUser
                     {
                         UserName = model.UserName,
                         Email = model.Email,
                         FirstName = model.FirstName,
                         LastName = model.LastName,
+                        Gender = (Identity.Gender)model.Gender,
                         PhoneNumber = model.PhoneNumber,
                         StreetAddress = model.StreetAddress,
                         City = model.City,
@@ -97,10 +113,25 @@ namespace SalesEstimate.Controllers
                     if (result.Succeeded)
                     {
                         _logger.LogInformation("User {UserName} registered successfully.", model.UserName);
-                        await _signInManager.SignInAsync(user, false);
-                        return RedirectToLocal(returnUrl);
+
+                        // Assign role based on the model's RoleName
+                        var role = model.RoleName == "Admin" ? "Admin" : "User";
+                        var roleResult = await _userManager.AddToRoleAsync(user, role);
+
+                        if (!roleResult.Succeeded)
+                        {
+                            foreach (var error in roleResult.Errors)
+                            {
+                                _logger.LogWarning("Error adding user to role {UserName}: {ErrorDescription}", model.UserName, error.Description);
+                                ModelState.AddModelError("", error.Description);
+                            }
+                        }
+
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        return RedirectToAction("Login", "Account");
                     }
 
+                    // Handle errors during registration
                     foreach (var error in result.Errors)
                     {
                         _logger.LogWarning("Error during registration for user {UserName}: {ErrorDescription}", model.UserName, error.Description);
@@ -116,6 +147,7 @@ namespace SalesEstimate.Controllers
 
             return View(model);
         }
+
         [Authorize]
         public async Task<IActionResult> AllUsers()
         {
@@ -155,7 +187,7 @@ namespace SalesEstimate.Controllers
             }
 
             // Update user properties
-            user.UserName = registerViewModel.UserName;
+            user.UserName = registerViewModel.FirstName + registerViewModel.LastName;
             user.Email = registerViewModel.Email;
             user.PhoneNumber = registerViewModel.PhoneNumber;
             user.FirstName = registerViewModel.FirstName;
@@ -183,6 +215,22 @@ namespace SalesEstimate.Controllers
 
             return RedirectToAction("Login", "Account");
         }
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public IActionResult Delete(string id)
+        {
+            var user = _userManager.FindByIdAsync(id).Result;
+            if (user != null)
+            {
+                var result = _userManager.DeleteAsync(user).Result;
+                if (result.Succeeded)
+                {
+                    return Json(new { success = true });
+                }
+            }
+            return Json(new { success = false });
+        }
+
 
         private IActionResult RedirectToLocal(string? returnUrl)
         {

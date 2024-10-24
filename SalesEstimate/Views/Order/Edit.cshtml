@@ -2,13 +2,15 @@
 @{
     Layout = "_Layout";
 }
+
 <div class="container-fluid">
     <div class="page-inner">
         <div class="row">
             <div class="col-md-12">
                 <h5>@ViewBag.PageTitle</h5>
                 <div class="card">
-                    <form class="col-12 g-3 needs-validation" asp-action="CreateOrderDetail" method="post" novalidate>
+                    <form class="col-12 g-3 needs-validation" asp-action="EditOrderDetail" method="post" novalidate>
+                        <input type="hidden" asp-for="Id" />
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link active" id="general-info-tab" data-bs-toggle="tab" href="#general-info" role="tab" aria-controls="general-info" aria-selected="true">General Information</a>
@@ -240,7 +242,14 @@
                                                             {
                                                                 foreach (var item in (SelectList)ViewBag.States)
                                                                 {
-                                                                    <option value="@item.Value">@item.Text</option>
+                                                                    if (item.Value == Model.LookupStateId.ToString())
+                                                                    {
+                                                                        <option value="@item.Value" selected>@item.Text</option>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <option value="@item.Value">@item.Text</option>
+                                                                    }
                                                                 }
                                                             }
                                                         </select>
@@ -270,64 +279,62 @@
                                 </div>
                             </div>
 
+                            <!-- Order Details Tab -->
                             <div class="tab-pane fade" id="order-details" role="tabpanel" aria-labelledby="order-details-tab">
                                 <div class="card-body">
                                     <div class="col-md-12 text-end mb-3">
                                         <button type="button" class="btn btn-primary" id="addOrderDetails">Add+</button>
                                     </div>
                                     <div id="orderDetailsContainer">
+                                        @foreach (var detail in Model.OrderDetails)
+                                        {
+                                            if (Model.OrderDetails.Count() == 1) 
+                                            { detail.OrderLine = 0; }
+                                            else { detail.OrderLine = (detail.OrderLine - 1); }
+
+                                            <partial name="_OrderDetails" model="detail" />
+                                        }
                                     </div>
                                 </div>
                             </div>
-                            <input type="hidden" value="0" id="totalOrderItems" />
+
+                            <input type="hidden" value="@Model.OrderDetails.Count()" id="totalOrderItems" />
                             <div class="submitButtonContainer text-end mt-3 mb-2">
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </div>
                     </form>
-
                 </div>
             </div>
-            @* <div class="submitButtonContainer d-none text-end mt-3">
-            <button type="submit" class="btn btn-primary">Submit</button>
-            </div> *@
         </div>
     </div>
 </div>
+
 @section Scripts {
     <script>
         'use strict';
+        let lineNumber = $('#totalOrderItems').val();
 
         $(document).ready(function () {
-            // Initialize line number from total order items input
-            let lineNumber = parseInt($('#totalOrderItems').val()) || 0;
+            // Load existing order details if any (this part may be dynamic based on your backend)
 
-            // Function to add order detail
-            function addOrderDetail() {
+            $('#addOrderDetails').on('click', function () {
                 $.ajax({
                     url: '@Url.Action("AddOrderDetail", "Order")',
                     type: 'GET',
                     data: { orderLine: lineNumber },
                     success: function (data) {
                         $('#orderDetailsContainer').append(data);
-                         lineNumber++; 
-                        $('#totalOrderItems').val(lineNumber); 
+                        // lineNumber++;
+                        $('#totalOrderItems').val(lineNumber);
                     },
                     error: function (xhr, status, error) {
                         console.error('Error details:', status, error);
                         alert('An error occurred while loading the data. Please check the console for details.');
                     }
                 });
-            }
-
-            addOrderDetail();
-
-            // Add order detail on button click
-            $('#addOrderDetails').on('click', function () {
-                addOrderDetail();
             });
 
-            // Form validation setup
             var forms = document.querySelectorAll('.needs-validation');
             Array.prototype.slice.call(forms).forEach(function (form) {
                 form.addEventListener('submit', function (event) {
@@ -335,27 +342,24 @@
                         event.preventDefault();
                         event.stopPropagation();
                     }
-                    form.classList.add('was-validated'); // Add Bootstrap validation class
+                    form.classList.add('was-validated');
                 }, false);
             });
-
-            /*// Tab change event handler
-
-            $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
-                var activeTabId = $(e.target).attr('id');
-                console.log("Tab changed to: ", activeTabId);
-
-                // Show or hide submit button based on active tab
-
-                if (activeTabId === 'order-details-tab') {
-                    $('.submitButtonContainer').removeClass('d-none');
-                    console.log("Show Submit Button");
-                } else {
-                    $('.submitButtonContainer').addClass('d-none');
-                    console.log("Hide Submit Button");
-                }
-            });
-            */
         });
+        /*
+        $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+            var activeTabId = $(e.target).attr('id');
+
+            console.log("Tab changed to: ", activeTabId);
+
+            if (activeTabId === 'order-details-tab') {
+                $('.submitButtonContainer').removeClass('d-none');
+                console.log("Show Submit Button");
+            } else {
+                $('.submitButtonContainer').addClass('d-none');
+                console.log("Hide Submit Button");
+            }
+        });
+        */
     </script>
 }

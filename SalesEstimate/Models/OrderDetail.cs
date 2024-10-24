@@ -10,6 +10,7 @@ namespace SalesEstimate.Models
         [ForeignKey("Order")]
         public int OrderId { get; set; }
         public Order Order { get; set; }
+
         [Display(Name = "Order Line")]
         public int? OrderLine { get; set; }
         [Display(Name = "Frame Quantity")]
@@ -130,5 +131,6 @@ namespace SalesEstimate.Models
         [MaxLength(450)]
         public string? ModifiedBy { get; set; }
         public DateTime? ModifiedDate { get; set; }
+
     }
 }
